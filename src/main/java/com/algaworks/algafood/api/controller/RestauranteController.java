@@ -23,9 +23,8 @@ public class RestauranteController {
     @Autowired
     private CadastroRestauranteService cadastroRestaurante;
 
-
     @GetMapping
-    public List<Restaurante> listar(){
+    public List<Restaurante> listar() {
         return restauranteRepository.listar();
     }
 

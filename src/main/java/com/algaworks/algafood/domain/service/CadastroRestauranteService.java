@@ -16,19 +16,23 @@ public class CadastroRestauranteService {
     private RestauranteRepository restauranteRepository;
 
     public Restaurante salvar(Restaurante restaurante) {
+
         return restauranteRepository.salvar(restaurante);
     }
 
     public void excluir(Long restauranteId) {
         try {
             restauranteRepository.remover(restauranteId);
+
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Não existe um cadastro de restaurante com código %d", restauranteId));
 
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
-                    String.format("Restaurante de código %d não pode ser removido, pois está em uso", restauranteId));
+                    String.format("Restaurante de código %d não pode ser removida, pois está em uso", restauranteId));
         }
+
     }
+
 }
