@@ -1,8 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
+import com.algaworks.algafood.domain.service.CadastroEstadoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,6 +19,9 @@ public class EstadoController {
 
     @Autowired
     private EstadoRepository estadoRepository;
+
+    @Autowired
+    private CadastroEstadoService cadastroEstado;
 
     @GetMapping
     public List<Estado> listar() {
@@ -38,7 +42,7 @@ public class EstadoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Estado adicionar(@RequestBody Estado estado) {
-        return estadoRepository.salvar(estado);
+        return cadastroEstado.salvar(estado);
     }
 
     @PutMapping("/{estadoId}")
@@ -58,20 +62,18 @@ public class EstadoController {
     @DeleteMapping("/{estadoId}")
     public ResponseEntity<Estado> remover(@PathVariable Long estadoId) {
         try {
-            Estado estado = estadoRepository.buscar(estadoId);
+            cadastroEstado.excluir(estadoId);
+            return ResponseEntity.noContent().build();
 
-            if (estado != null) {
-                estadoRepository.remover(estado);
 
-                return ResponseEntity.noContent().build();
-            }
-
-            return ResponseEntity.notFound().build();
         } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.notFound().build();
+
+
+        } catch (EntidadeEmUsoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
-
 
 
 }
