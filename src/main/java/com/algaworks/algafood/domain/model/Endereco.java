@@ -12,19 +12,19 @@ import lombok.Data;
 @Embeddable
 public class Endereco {
 
-	@Column(name = "endereco_cep", length = 9)
+	@Column(name = "endereco_cep")
 	private String cep;
 	
-	@Column(name = "endereco_logradouro", length = 100)
+	@Column(name = "endereco_logradouro")
 	private String logradouro;
 	
-	@Column(name = "endereco_numero", length = 20)
+	@Column(name = "endereco_numero")
 	private String numero;
 	
-	@Column(name = "endereco_complemento", length = 60)
+	@Column(name = "endereco_complemento")
 	private String complemento;
 	
-	@Column(name = "endereco_bairro", length = 60)
+	@Column(name = "endereco_bairro")
 	private String bairro;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
