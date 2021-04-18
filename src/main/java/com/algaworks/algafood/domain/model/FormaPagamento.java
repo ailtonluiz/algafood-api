@@ -19,7 +19,7 @@ public class FormaPagamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false, length = 85)
+	@Column(nullable = false, length = 60)
 	private String descricao;
 	
 }
